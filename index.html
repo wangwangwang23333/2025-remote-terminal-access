@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMOTE TERMINAL ACCESS</title>
+    <link rel="stylesheet" href="style.css">
+        <!-- Use modern EmailJS browser SDK (@emailjs/browser) to avoid unsupported version errors -->
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser/dist/email.min.js"></script>
+        <script>
+            // EmailJS 初始化片段（替换占位符为你的真实 ID）
+            // - 将 'YOUR_USER_ID' 替换为 EmailJS 仪表盘提供的 user ID
+            // - 将 service_id/template_id 替换为你在 EmailJS 中创建的值
+            (function() {
+                try {
+                    if (window.emailjs) {
+                        // 初始化 EmailJS（请替换为你的 user id）
+                        try { emailjs.init('gJpA7f7NRJVTQI4DO'); } catch (e) { console.warn('emailjs.init failed', e); }
+
+                        // 全局配置，script.js 会读取 window.EMAILJS_CONFIG（可选）
+                        window.EMAILJS_CONFIG = {
+                            service_id: 'service_746gihd',
+                            template_id: 'template_5jv2f9c',
+                            user_id: 'gJpA7f7NRJVTQI4DO'
+                        };
+                    } else {
+                        console.warn('EmailJS SDK not available. Make sure the SDK script loaded correctly.');
+                    }
+                } catch (err) {
+                    console.warn('Error initializing EmailJS:', err);
+                }
+            })();
+        </script>
+</head>
+<body>
+    <!-- Matrix background canvas (dynamic) -->
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <!-- Hacker subtle overlay for extra effect -->
+    <div class="hacker-overlay" aria-hidden="true"></div>
+    <div class="terminal-container">
+        <!-- 终端标题栏 -->
+        <div class="terminal-header">
+            <div class="terminal-controls">
+                <div class="control-button"></div>
+                <div class="control-button"></div>
+                <div class="control-button"></div>
+            </div>
+            <div class="terminal-title-text">REMOTE TERMINAL ACCESS</div>
+            <div></div> <!-- 占位 -->
+        </div>
+        
+        <!-- 视觉效果覆盖层 -->
+        <div class="noise-overlay"></div>
+        <div class="scanlines"></div>
+        
+        <div class="terminal">
+            <!-- 初始化序列 -->
+            <div class="init-sequence">
+                <div><span class="cmd-prefix">[SYSTEM]</span> <span class="init-text">正在初始化登陆协议 v2.3.1...</span></div>
+                <div><span class="cmd-prefix">[SYSTEM]</span> <span class="init-text">正在连接至主机...</span></div>
+                <div><span class="cmd-prefix">[SYSTEM]</span> <span class="init-text">身份验证模块已加载...</span></div>
+                <div><span class="cmd-prefix">[SYSTEM]</span> <span class="init-text">安全级别: </span><span class="highlight">高</span></div>
+            </div>
+            
+            <!-- ASCII 艺术标题 -->
+            <div class="ascii-logo">
+<pre>
+ __  __             _              _       __          _             
+|  \/  |           | |            | |     / /         | |            
+| \  / | ___  _ __ | |_ _   _ _ __| |_   / /_ _  __ _| | _____ _ __ 
+| |\/| |/ _ \| '_ \| __| | | | '__| __| / / _` |/ _` | |/ / _ \ '__|
+| |  | | (_) | | | | |_| |_| | |  | |_ / / (_| | (_| |   <  __/ |   
+|_|  |_|\___/|_| |_|\__|\__,_|_|   \__/_/ \__,_|\__,_|_|\_\___|_|   
+                                                                     
+</pre>
+
+            </div>
+            
+            <!-- 连接信息 -->
+            <div class="connection-info">REMOTE TERMINAL ACCESS - 内测版</div>
+            
+            <div class="terminal-body">
+                <!-- 模式选择 -->
+                <div id="mode-selection" class="mode-selection">
+                    <p class="prompt">选择认证方式:</p>
+                    <div class="button-group">
+                        <button id="password-mode-btn" class="terminal-btn">[1] 密码认证</button>
+                        <button id="verification-mode-btn" class="terminal-btn">[2] 验证码认证</button>
+                    </div>
+                    <p class="info-text">按 [ESC] 返回选择菜单</p>
+                </div>
+                
+                <!-- 邮箱密码登录表单 -->
+                <div id="password-login" class="login-form hidden">
+                    <div class="input-group">
+                        <span class="prompt">[邮箱]: </span>
+                        <input type="email" id="password-email" class="terminal-input" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" spellcheck="false">
+                    </div>
+                    <div class="input-group">
+                        <span class="prompt">[密码]: </span>
+                        <input type="password" id="password" class="terminal-input" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" spellcheck="false">
+                    </div>
+                    <div class="button-group">
+                        <button id="password-login-btn" class="terminal-btn">[登陆]</button>
+                    </div>
+                </div>
+                
+                <!-- 邮箱验证码登录表单 -->
+                <div id="verification-login" class="login-form hidden">
+                    <div class="input-group">
+                        <span class="prompt">[邮箱]: </span>
+                        <input type="email" id="verification-email" class="terminal-input" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" spellcheck="false">
+                    </div>
+                    <div class="input-group">
+                        <button id="send-code-btn" class="terminal-btn">[发送验证码]</button>
+                        <span class="prompt">[验证码]: </span>
+                        <input type="text" id="verification-code" class="terminal-input" autocomplete="one-time-code" readonly onfocus="this.removeAttribute('readonly');" spellcheck="false" inputmode="numeric" pattern="\d{6}">
+                    </div>
+                    <div class="button-group">
+                        <button id="verification-login-btn" class="terminal-btn">[登陆]</button>
+                    </div>
+                </div>
+                
+                <!-- 响应输出区域 -->
+                <div id="response-area" class="response-area">
+                    <div class="cursor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
