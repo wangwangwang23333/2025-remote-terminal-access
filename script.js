@@ -576,7 +576,6 @@ function init() {
     // 启动复古终端初始化动画
     startRetroInitialization();
 
-    switchToModeSelection()
 }
 
 // 页面加载完成后初始化
