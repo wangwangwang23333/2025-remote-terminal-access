@@ -412,7 +412,7 @@ async function handleSendCode() {
     const now = Date.now();
     if (lastSent && now - lastSent < COOLDOWN_SECONDS * 1000) {
         const remaining = Math.ceil((COOLDOWN_SECONDS * 1000 - (now - lastSent)) / 1000);
-        typeText(`> ERROR: PLEASE WAIT ${remaining}s BEFORE RESENDING.`, 'error-text');
+        typeText(`> ERROR: 请等待 ${remaining}s 后再发送.`, 'error-text');
         return;
     }
 
@@ -421,7 +421,7 @@ async function handleSendCode() {
     sendCodeBtn.disabled = true;
     sendCodeBtn.style.opacity = '0.5';
     sendCodeBtn.textContent = '[SENDING...]';
-    typeText(`> SENDING CODE TO ${email}...`, 'info-text');
+    typeText(`> 已发送验证码到邮箱： ${email}...`, 'info-text');
 
     try {
         // 生成验证码
@@ -435,7 +435,7 @@ async function handleSendCode() {
 
         // 延迟以便显示效果
         setTimeout(() => {
-            typeText(`> VERIFICATION CODE SENT SUCCESSFULLY.`, 'success-text');
+            typeText(`> 验证码已成功发送`, 'success-text');
 
             // 启动倒计时显示
             let countdown = COOLDOWN_SECONDS;
