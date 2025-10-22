@@ -313,7 +313,7 @@ function handleVerificationLogin() {
         typeText('> 正在连接至远程服务...', 'success-text', () => {
             setTimeout(() => {
                 // 这里可以替换为实际的跳转URL
-                typeText('> 连接已成功简历. 正在重定向...', 'success-text', () => {
+                typeText('> 连接已成功建立. 正在重定向...', 'success-text', () => {
                     setTimeout(() => {
                         window.location.href = 'https://wangwangwang.website/2025-ubuntu-terminal';
                     }, 1000);
