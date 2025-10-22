@@ -193,7 +193,7 @@ function startMatrix() {
     const columns = Math.floor(width / 14);
     const drops = new Array(columns).fill(1);
 
-    const chars = '01あいうえおアイウエオｱｲｳｴｵABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%^&*()*&^%';
+    const chars = '01ABC验F证GS码SJi之间的规律ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%^&*()*&^%';
 
     function resize() {
         width = canvas.width = window.innerWidth;
@@ -217,7 +217,7 @@ function startMatrix() {
             if (y > height && Math.random() > 0.975) {
                 drops[i] = 0;
             }
-            drops[i]++;
+            drops[i] = drops[i] + 0.7;
         }
     }
 
@@ -262,7 +262,7 @@ function startMatrix() {
         document.getElementById('verification-code').value = '';
         
         // 显示切换消息
-        typeText('> 正在切换回登陆方式选择...', 'info-text');
+        typeText('> 正在选择登录方式...', 'info-text');
         
     }, 300);
 }
@@ -575,6 +575,8 @@ function init() {
     
     // 启动复古终端初始化动画
     startRetroInitialization();
+
+    switchToModeSelection()
 }
 
 // 页面加载完成后初始化
