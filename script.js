@@ -304,7 +304,6 @@ function handleVerificationLogin() {
         typeText('> ERROR: 请完成全部内容的填写', 'error-text');
         return;
     }
-    
     if (currentVerificationCode === '' || code !== currentVerificationCode) {
         typeText('> ERROR: 验证码无效', 'error-text');
         return;
