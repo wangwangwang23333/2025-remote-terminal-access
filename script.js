@@ -321,7 +321,7 @@ function handleVerificationLogin() {
             }, 2000);
         });
     } else {
-        typeText('> ERROR: 帐号暂未开通权限', 'error-text');
+        typeText('> ERROR: 系统中查询不到该账号', 'error-text');
     }
 }
 
