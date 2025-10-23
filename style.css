@@ -429,3 +429,28 @@ body::before {
     font-weight: bold;
     text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
 }
+
+/* 状态面板（右下角） */
+.status-panel {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 50;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(0,255,150,0.06);
+    padding: 10px 12px;
+    color: #bfffd1;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    min-width: 210px;
+}
+.status-row{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:2px 0}
+.status-label{opacity:0.7;font-size:12px}
+.status-value{font-weight:600;color:#a8ffd4}
+
+@media (max-width:600px){
+    .status-panel{right:10px;bottom:10px;min-width:160px;font-size:12px}
+}

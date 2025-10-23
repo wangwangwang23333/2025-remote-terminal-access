@@ -576,7 +576,63 @@ function init() {
     // 启动复古终端初始化动画
     startRetroInitialization();
 
+    // 启动状态面板更新
+    try {
+        startStatusPanel();
+    } catch (e) {
+        console.warn('Status panel failed to start', e);
+    }
+
 }
 
 // 页面加载完成后初始化
 window.addEventListener('DOMContentLoaded', init);
+
+/* ------------------- 状态面板（右下角）动态更新 ------------------- */
+let statusIntervalId;
+let connsIntervalId;
+function startStatusPanel() {
+    const timeEl = document.getElementById('server-time');
+    const locEl = document.getElementById('server-loc');
+    const connsEl = document.getElementById('server-conns');
+
+    if (!timeEl || !locEl || !connsEl) return;
+
+    // 固定显示上海经纬度（可后续改为动态 API）
+    locEl.textContent = 'Shanghai (31.2304° N, 121.4737° E)';
+
+    // 初始连接数
+    let conns = 23;
+    connsEl.textContent = String(conns);
+
+    // 更新时间（本地时间，小时:分钟）
+    function updateTime() {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        timeEl.textContent = `${hh}:${mm}`;
+    }
+
+    // 每分钟更新一次时间（同时立即更新一次）
+    updateTime();
+    statusIntervalId = setInterval(updateTime, 1000);
+
+    // 随机波动连接数：每 3-7 秒以 ±0~3 波动，保持不小于 5
+    function randomizeConns() {
+        const change = Math.floor(Math.random() * 7) - 3; // -3..+3
+        conns = Math.max(5, conns + change);
+        connsEl.textContent = String(conns);
+    }
+
+    // 先立刻显示一次，随后每 3-7 秒变动
+    connsIntervalId = setInterval(randomizeConns, 3000 + Math.floor(Math.random() * 4000));
+}
+
+function stopStatusPanel() {
+    if (statusIntervalId) clearInterval(statusIntervalId);
+    if (connsIntervalId) clearInterval(connsIntervalId);
+}
+
+// 可在控制台手动停止/启动
+window.__startStatusPanel = startStatusPanel;
+window.__stopStatusPanel = stopStatusPanel;
