@@ -276,15 +276,13 @@ function handlePasswordLogin() {
         typeText('> ERROR: 请完成全部内容的填写', 'error-text');
         return;
     }
-
-    if (email === 'leoy@terminal.com' && password === '991011Wly.') {
+    if (email !== 'leoy@terminal.com') {
+        typeText('> ERROR: 系统中查询不到该账号', 'error-text');
+    } else if (password !== '991011Wly.') {
+        typeText('> ERROR: 密码错误', 'error-text');
+    } else {
         typeText('> ERROR: 该账号密码登录方式已被关闭', 'error-text');
-        return
     }
-    
-    // 显示错误信息
-    typeText('> ERROR: 暂不支持该方式登录', 'error-text');
-    
     // 可以添加输入框闪烁效果作为强调
     const activeInput = document.activeElement;
     if (activeInput.classList.contains('terminal-input')) {
